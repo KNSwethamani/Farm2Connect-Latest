@@ -347,7 +347,7 @@ document.querySelectorAll(".contact-btn").forEach(button => {
             button.textContent = "SENDING...";
 
             const response = await fetch(
-               "https://farm2connect.onrender.com/api/requests"
+               "https://farm2connect.onrender.com/api/requests",
                 {
                     method: "POST",
                     headers: {
