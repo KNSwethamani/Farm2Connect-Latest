@@ -46,7 +46,7 @@ productForm.addEventListener("submit", async (event) => {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/products",
+            "https://farm2connect.onrender.com/api/products"
             {
                 method: "POST",
 
@@ -101,7 +101,7 @@ productForm.addEventListener("submit", async (event) => {
 async function loadProducts() {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/products/farmer/${user.user_id}`
+            `https://farm2connect.onrender.com/api/products/farmer/${user.user_id}`
         );
 
         const data = await response.json();
@@ -258,7 +258,7 @@ async function editProduct(product) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/products/${product.product_id}`,
+            `https://farm2connect.onrender.com/api/products/${product.product_id}`,
             {
                 method: "PUT",
                 headers: {
@@ -302,7 +302,7 @@ async function editProduct(product) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/products/${product.product_id}`,
+            `https://farm2connect.onrender.com/api/products/${product.product_id}`,
             {
                 method: "PUT",
                 headers: {
@@ -341,7 +341,7 @@ async function deleteProduct(productId) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/products/${productId}`,
+            `https://farm2connect.onrender.com/api/products/${productId}`,
             {
                 method: "DELETE",
                 headers: {
