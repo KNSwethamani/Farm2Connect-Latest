@@ -90,7 +90,7 @@ requestsBtn.addEventListener("click", async () => {
 async function showOrders() {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/orders/customer/${user.user_id}`
+         `https://farm2connect.onrender.com/api/orders/customer/${user.user_id}`   
         );
 
         const data = await response.json();
@@ -127,7 +127,7 @@ async function showOrders() {
 async function showRequests() {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/requests/customer/${user.user_id}`
+        `https://farm2connect.onrender.com/api/requests/customer/${user.user_id}`   
         );
 
         const data = await response.json();
@@ -163,7 +163,7 @@ async function showFarmerRequests() {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/requests/farmer/${user.user_id}`
+        `https://farm2connect.onrender.com/api/requests/farmer/${user.user_id}`    
         );
 
         const data = await response.json();
@@ -193,7 +193,7 @@ async function showFarmerRequests() {
             const status = accepted ? "ACCEPTED" : "REJECTED";
 
             const updateResponse = await fetch(
-                `http://localhost:5000/api/requests/${request.request_id}/status`,
+                `https://farm2connect.onrender.com/api/requests/${request.request_id}/status`
                 {
                     method: "PUT",
                     headers: {
