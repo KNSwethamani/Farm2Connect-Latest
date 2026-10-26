@@ -19,12 +19,12 @@ async function loadFarmerDetails() {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/farmers/${farmerId}`
+         `https://farm2connect.onrender.com/api/farmers/${farmerId}`   
         );
 
         const data = await response.json();
         farmerProductsData = data.products || [];
-
+        
         if (productId) {
             farmerProductsData = farmerProductsData.filter(
                 product => String(product.product_id) === String(productId)
@@ -121,7 +121,7 @@ const quantity = Number(searchData.quantity);
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/orders", {
+        const response = await fetch("https://farm2connect.onrender.com/api/orders", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
