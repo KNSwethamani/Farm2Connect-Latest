@@ -10,7 +10,7 @@ loginForm.addEventListener("submit", async (event) => {
     loginMessage.textContent = "Checking your account...";
 
     try {
-        const response = await fetch("http://localhost:5000/api/login", {
+        const response = await fetch("https://farm2connect.onrender.com/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
