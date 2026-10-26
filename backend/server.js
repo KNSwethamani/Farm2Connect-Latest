@@ -211,120 +211,40 @@ app.post("/api/products", (req, res) => {
         });
     }
 
-    const farmerSql = `
-        SELECT farmer_id
-        FROM farmer_profiles
-        WHERE user_id = ?
-        LIMIT 1
+    const sql = `
+        INSERT INTO products
+        (farmer_id, product_name, quantity, unit, price_per_unit, description)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
-    db.query(farmerSql, [farmer_id], (err, farmers) => {
-        if (err) {
-            console.error("FARMER PROFILE CHECK ERROR:", err);
-            return res.status(500).json({
-                success: false,
-                message: "Failed to verify farmer",
-                error: err.message
-            });
-        }
-
-        if (farmers.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Farmer profile not found"
-            });
-        }
-
-        const actualFarmerId = farmers[0].farmer_id;
-
-        const produceSql = `
-            SELECT produce_id
-            FROM produce
-            WHERE LOWER(TRIM(produce_name)) = LOWER(TRIM(?))
-            LIMIT 1
-        `;
-
-        db.query(produceSql, [product_name], (err, produceRows) => {
+    db.query(
+        sql,
+        [
+            farmer_id,
+            product_name.trim(),
+            q,
+            unit.trim(),
+            p,
+            description ? description.trim() : null
+        ],
+        (err, result) => {
             if (err) {
-                console.error("PRODUCE CHECK ERROR:", err);
+                console.error("ADD PRODUCT ERROR:", err);
+
                 return res.status(500).json({
                     success: false,
-                    message: "Failed to check produce",
+                    message: "Failed to add product",
                     error: err.message
                 });
             }
 
-            const insertListing = (produceId) => {
-                const listingSql = `
-                    INSERT INTO listings
-                    (
-                        farmer_id,
-                        produce_id,
-                        quantity,
-                        unit,
-                        expected_price,
-                        status
-                    )
-                    VALUES (?, ?, ?, ?, ?, 'AVAILABLE')
-                `;
-
-                db.query(
-                    listingSql,
-                    [
-                        actualFarmerId,
-                        produceId,
-                        q,
-                        unit.trim(),
-                        p
-                    ],
-                    (err, result) => {
-                        if (err) {
-                            console.error("ADD LISTING ERROR:", err);
-                            return res.status(500).json({
-                                success: false,
-                                message: "Failed to add product",
-                                error: err.message
-                            });
-                        }
-
-                        res.status(201).json({
-                            success: true,
-                            message: "Product added successfully",
-                            product_id: result.insertId
-                        });
-                    }
-                );
-            };
-
-            if (produceRows.length > 0) {
-                insertListing(produceRows[0].produce_id);
-                return;
-            }
-
-            const createProduceSql = `
-                INSERT INTO produce
-                (produce_name)
-                VALUES (?)
-            `;
-
-            db.query(
-                createProduceSql,
-                [product_name.trim()],
-                (err, result) => {
-                    if (err) {
-                        console.error("CREATE PRODUCE ERROR:", err);
-                        return res.status(500).json({
-                            success: false,
-                            message: "Failed to create produce",
-                            error: err.message
-                        });
-                    }
-
-                    insertListing(result.insertId);
-                }
-            );
-        });
-    });
+            res.status(201).json({
+                success: true,
+                message: "Product added successfully",
+                product_id: result.insertId
+            });
+        }
+    );
 });
 
 app.get("/api/products/search", (req, res) => {
