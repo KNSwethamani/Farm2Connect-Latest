@@ -82,8 +82,7 @@ console.log("Saved search:", localStorage.getItem("farm2connectSearch"));
 
 
         // Backend API
-        const apiUrl =`http://localhost:5000/api/products/search?product_name=${encodeURIComponent(produce)}&required_quantity=${encodeURIComponent(quantity)}&unit=${encodeURIComponent(unit)}`;
-        
+       const apiUrl = `https://farm2connect.onrender.com/api/products/search?product_name=${encodeURIComponent(produce)}&required_quantity=${encodeURIComponent(quantity)}&unit=${encodeURIComponent(unit)}`;
         console.log("Searching:", apiUrl);
 
 
@@ -348,7 +347,7 @@ document.querySelectorAll(".contact-btn").forEach(button => {
             button.textContent = "SENDING...";
 
             const response = await fetch(
-                "http://localhost:5000/api/requests",
+               "https://farm2connect.onrender.com/api/requests"
                 {
                     method: "POST",
                     headers: {
