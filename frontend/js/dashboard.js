@@ -193,7 +193,7 @@ async function showFarmerRequests() {
             const status = accepted ? "ACCEPTED" : "REJECTED";
 
             const updateResponse = await fetch(
-                `https://farm2connect.onrender.com/api/requests/${request.request_id}/status`
+                `https://farm2connect.onrender.com/api/requests/${request.request_id}/status`,
                 {
                     method: "PUT",
                     headers: {
@@ -220,3 +220,4 @@ async function showFarmerRequests() {
         alert("Unable to connect to the server.");
     }
 }
+
