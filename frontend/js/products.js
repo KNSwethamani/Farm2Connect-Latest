@@ -5,6 +5,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 const user = JSON.parse(localStorage.getItem("farm2connectUser"));
 
+const API_URL = "https://farm2connect.onrender.com";
 
 // Check login
 if (!user) {
@@ -42,43 +43,61 @@ productForm.addEventListener("submit", async (event) => {
 
     productMessage.textContent = "Adding product...";
 
-try {
-    const response = await fetch(
-        "https://farm2connect.onrender.com/api/products",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                farmer_id: user.user_id,
-                product_name: product_name,
-                quantity: quantity,
-                unit: unit,
-                price_per_unit: price_per_unit,
-                description: description
-            })
+
+    try {
+
+        
+const response = await fetch(
+    "https://farm2connect.onrender.com/api/products",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            farmer_id: user.user_id,
+            product_name,
+            quantity,
+            unit,
+            price_per_unit,
+            description
+        })
+    }
+);
+
+
+
+        const data = await response.json();
+
+
+        if (response.ok) {
+
+            productMessage.textContent =
+                "Product added successfully! 🌱";
+
+            productForm.reset();
+
+            loadProducts();
+
+        } else {
+
+            productMessage.textContent =
+                data.message || "Failed to add product.";
+
         }
-    );
 
-    const data = await response.json();
+    } catch (error) {
 
-    if (response.ok) {
-        productMessage.textContent = "Product added successfully!";
-        productForm.reset();
-        loadProducts();
-    } else {
+        console.error(error);
+
         productMessage.textContent =
-            data.message || "Failed to add product.";
+            "Unable to connect to the server.";
+
     }
 
-} catch (error) {
-    console.error(error);
-    productMessage.textContent =
-        "Unable to connect to the server.";
-}
 });
-    
+
+
 // Load farmer's products
 async function loadProducts() {
     try {
