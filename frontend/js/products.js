@@ -42,60 +42,41 @@ productForm.addEventListener("submit", async (event) => {
 
     productMessage.textContent = "Adding product...";
 
-
-    try {
-
-        const response = await fetch(
-            "https://farm2connect.onrender.com/api/products",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    farmer_id: user.user_id,
-                    product_name,
-                    quantity,
-                    unit,
-                    price_per_unit,
-                    description
-                })
-            }
-        );
-
-
-        const data = await response.json();
-
-
-        if (response.ok) {
-
-            productMessage.textContent =
-                "Product added successfully! 🌱";
-
-            productForm.reset();
-
-            loadProducts();
-
-        } else {
-
-            productMessage.textContent =
-                data.message || "Failed to add product.";
-
+try {
+    const response = await fetch(
+        "https://farm2connect.onrender.com/api/products",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                farmer_id: user.user_id,
+                product_name: product_name,
+                quantity: quantity,
+                unit: unit,
+                price_per_unit: price_per_unit,
+                description: description
+            })
         }
+    );
 
-    } catch (error) {
+    const data = await response.json();
 
-        console.error(error);
-
+    if (response.ok) {
+        productMessage.textContent = "Product added successfully!";
+        productForm.reset();
+        loadProducts();
+    } else {
         productMessage.textContent =
-            "Unable to connect to the server.";
-
+            data.message || "Failed to add product.";
     }
 
-});
-
+} catch (error) {
+    console.error(error);
+    productMessage.textContent =
+        "Unable to connect to the server.";
+}
 
 // Load farmer's products
 async function loadProducts() {
