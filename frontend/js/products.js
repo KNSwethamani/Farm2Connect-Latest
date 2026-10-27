@@ -77,7 +77,8 @@ try {
     productMessage.textContent =
         "Unable to connect to the server.";
 }
-
+});
+    
 // Load farmer's products
 async function loadProducts() {
     try {
