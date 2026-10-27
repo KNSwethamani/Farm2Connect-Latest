@@ -46,7 +46,7 @@ productForm.addEventListener("submit", async (event) => {
     try {
 
         const response = await fetch(
-            "https://farm2connect.onrender.com/api/products"
+            "https://farm2connect.onrender.com/api/products",
             {
                 method: "POST",
 
